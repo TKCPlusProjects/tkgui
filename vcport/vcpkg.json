@@ -1,0 +1,16 @@
+{
+  "name": "tkgui",
+  "version": "0.1.0",
+  "description": "The tkgui is a port of vcpkg",
+  "homepage": "https://github.com/ZhengXianda/tkgui",
+  "dependencies": [
+    {
+      "name": "vcpkg-cmake",
+      "host": true
+    },
+    {
+      "name": "vcpkg-cmake-config",
+      "host": true
+    }
+  ]
+}
