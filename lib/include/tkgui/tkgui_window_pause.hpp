@@ -8,7 +8,7 @@ namespace tkht {
 namespace tkgui {
 class WindowPause : public Window {
 public:
-  shared_ptr<tkgui::ViewTableOption> option_table;
+  shared_ptr<tkgui::ViewTableOption> option;
   
   WindowPause();
 
