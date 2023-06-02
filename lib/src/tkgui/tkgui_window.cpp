@@ -3,6 +3,7 @@
 namespace tkht {
 namespace tkgui {
 Window::Window(const char *name) : name(name) {}
+Window::Window(const char *name, ImGuiWindowFlags flags) : name(name), flags(flags) {}
 
 void Window::Show() { showing = true; }
 void Window::Hide() { showing = false; }
@@ -43,9 +44,9 @@ void Window::Begin(bool fixed) {
   if (!fixed) WindowDisplay(name);
   ImGui::SetNextWindowPos(pos);
   ImGui::SetNextWindowSize(size);
-  ImGui::Begin(name, nullptr, UIFlags);
+  ImGui::Begin(name, nullptr, flags);
   ImGui::SetCursorPos(content_pos);
-  ImGui::BeginChild(ViewID(), content_size, true, UIFlags | ImGuiWindowFlags_NoScrollWithMouse);
+  ImGui::BeginChild(ViewID(), content_size, true, flags | ImGuiWindowFlags_NoScrollWithMouse);
 }
 void Window::End() { 
   ImGui::EndChild();

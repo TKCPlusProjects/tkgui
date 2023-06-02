@@ -7,6 +7,7 @@ namespace tkht {
 namespace tkgui {
 class Window {
 protected:
+  ImGuiWindowFlags flags;
   const char *name;
   bool showing = false;
 public:
@@ -16,6 +17,7 @@ public:
   vector<shared_ptr<Window>> subwindows; 
 
   Window(const char *name);
+  Window(const char *name, ImGuiWindowFlags flags);
 
   virtual void Show();
   virtual void Hide();
