@@ -36,9 +36,9 @@
 #  vcpkg_from_bitbucket
 #  vcpkg_from_sourceforge
 vcpkg_download_distfile(ARCHIVE
-    URLS "https://github.com/TKCPlusProjects/tkgui/releases/download/0.1.1/tkgui-0.1.1.zip"
-    FILENAME "tkgui-0.1.1.zip"
-    SHA512 12bd5109b4ea9f04a8c639f9553cbd2b1003f5c16fb20d0676b7460b43c2824459ed57458655f7e78ea23c7e616d1a642344a891d17081757ae2d6f7668f9ee4
+    URLS "https://github.com/TKCPlusProjects/tkgui/releases/download/0.1.2/tkgui-0.1.2.zip"
+    FILENAME "tkgui-0.1.2.zip"
+    SHA512 da05824e3650da793e3eba106116356554cde4884a9a92ebc5476af811c44f41ffe48b23d6a051e0c278eda4f894a5c40e516ce9498aec65ece6b0d7a631bbe8
 )
 
 vcpkg_extract_source_archive_ex(
