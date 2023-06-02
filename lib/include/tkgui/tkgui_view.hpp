@@ -6,8 +6,6 @@
 namespace tkht {
 namespace tkgui {
 class View {
-protected:
-  const ImGuiID identify;
 public:
   bool hide;
   ImVec2 pos, size;

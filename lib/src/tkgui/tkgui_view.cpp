@@ -2,7 +2,7 @@
 
 namespace tkht {
 namespace tkgui {
-View::View() : identify(ViewID()) {}
+View::View() {}
 
 void View::Add(shared_ptr<View> child) {
   children.push_back(child);
@@ -12,7 +12,7 @@ void View::Display() {
   if (hide) return;
   
   ImGui::SetCursorPos(pos);
-  ImGui::BeginChild(identify, size, false, UIFlags);
+  ImGui::BeginChild(ViewID(), size, false, UIFlags);
   {
     OnDisplay();
     OnDisplayChildren();
