@@ -2,7 +2,7 @@
 
 namespace tkht {
 namespace tkgui {
-Window::Window(const char *name) : name(name) {}
+Window::Window(const char *name) : name(name), flags(UIFlags) {}
 Window::Window(const char *name, ImGuiWindowFlags flags) : name(name), flags(flags) {}
 
 void Window::Show() { showing = true; }
