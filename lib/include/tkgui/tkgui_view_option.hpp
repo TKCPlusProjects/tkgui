@@ -5,17 +5,19 @@
 
 namespace tkht {
 namespace tkgui {
-class ViewTableOption : public ViewTable {
+class ViewTableOptionCell;
+class ViewTableOption;
+
+class ViewTableOptionCell : public ViewTableCell<ViewTableOption> {
 public:
-  class Cell : public ViewTable::Cell {
-  public:
-    const char* text;
-    function<void()> action;
-    Cell(const char* text, function<void()> action) : ViewTable::Cell(), text(text), action(action) {};
+  const char* text;
+  function<void()> action;
 
-    void OnDisplay() override;
-  };
-
+  void OnDisplay() override;
+};
+class ViewTableOption : public ViewTable<ViewTableOption, ViewTableOptionCell> {
+public:
+  shared_ptr<ViewTableOptionCell> CreateCell(const char* text, function<void()> action);
   void OnDisplay() override;
 };
 } // namespace tkgui

@@ -5,18 +5,21 @@
 
 namespace tkht {
 namespace tkgui {
-class ViewTableSetting : public ViewTable {
+class ViewTableSettingCell;
+class ViewTableSetting;
+
+class ViewTableSettingCell : public ViewTableCell<ViewTableSetting> {
 public:
-  class Cell : public ViewTable::Cell {
-  public:
-    shared_ptr<tkgm::SetItem> item;
-    function<void()> action;
-    Cell(shared_ptr<tkgm::SetItem> item, function<void()> action) : ViewTable::Cell(), item(item), action(action) {};
-
-    void OnDisplay() override;
-  };
-
+  shared_ptr<tkgm::SetItem> item;
+  
+  void OnDisplay() override;
+};
+class ViewTableSetting : public ViewTable<ViewTableSetting, ViewTableSettingCell> {
+public:
   const char* text;
+  function<void(shared_ptr<tkgm::KeyButtonItem>)> key_action;
+
+  shared_ptr<ViewTableSettingCell> CreateCell(shared_ptr<tkgm::SetItem> item);
   void OnDisplay() override;
 };
 

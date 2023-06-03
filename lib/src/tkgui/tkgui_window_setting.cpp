@@ -15,19 +15,17 @@ void WindowSetting::SetForms(vector<shared_ptr<tkgm::SetForm>> forms) {
   for (shared_ptr<tkgm::SetForm> form : forms) {
     shared_ptr<tkgui::ViewTableSetting> setting_table = make_shared<tkgui::ViewTableSetting>();
     setting_table->text = form->name;
-    setting_table->count_func = [=]() {
-      return form->items.size();
-    };
     setting_table->height_func = [=](int index) {
       return 50.0f;
     };
+    setting_table->key_action = [=](shared_ptr<tkgm::KeyButtonItem> item){
+      if (item->type == tkgm::SetItem::Type_KeyButton) {
+        ToastShow("Pless Input The 'Key' ...");
+        tkgm::control->Listen(dynamic_pointer_cast<KeyButtonItem>(item));
+      }
+    };
     for (shared_ptr<tkgm::SetItem> item : form->items) {
-      setting_table->cell_list.push_back(make_shared<tkgui::ViewTableSetting::Cell>(item, [=](){
-        if (item->type == tkgm::SetItem::Type_KeyButton) {
-          ToastShow("Pless Input The 'Key' ...");
-          tkgm::control->Listen(dynamic_pointer_cast<KeyButtonItem>(item));
-        }
-      }));
+      setting_table->cell_list.push_back(setting_table->CreateCell(item));
     };
     setting_tables.push_back(setting_table);
   }

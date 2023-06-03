@@ -10,7 +10,7 @@ namespace tkgui {
 class WindowMain : public Window {
 public:
   shared_ptr<tkgui::ViewTitle> title;
-  shared_ptr<tkgui::ViewTableOption> option;
+  shared_ptr<tkgui::ViewTableOption> option_table;
   
   WindowMain();
 

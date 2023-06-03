@@ -5,17 +5,46 @@
 
 namespace tkht {
 namespace tkgui {
-class ViewTable: public View {
+template <typename Tt>
+class ViewTableCell : public View {
 public:
-  class Cell: public View {};
+    weak_ptr<Tt> table;
+    int index = 0;
+};
 
-  vector<shared_ptr<Cell>> cell_list;
-
-  function<int()> count_func;
+template <typename Tt, typename Tc>
+class ViewTable : public View, public enable_shared_from_this<Tt> {
+public:
   function<float(int)> height_func;
-  function<void(int, ImVec2)> display_func;
+  function<void()> action;
+  vector<shared_ptr<Tc>> cell_list;
 
-  void OnDisplay() override;
+  shared_ptr<Tc> CreateCell() {
+    shared_ptr<Tc> cell = make_shared<Tc>();
+    cell->table = Tt::weak_from_this();
+    return cell;
+  }
+  void OnDisplay() override {
+    if (ImGui::BeginTable("TKGUI_VIEW_TABLE", 1, ImGuiTableFlags_None)) {
+      ImGuiListClipper clipper;
+      clipper.Begin(cell_list.size());
+      while (clipper.Step()) {
+        for (int row = clipper.DisplayStart; row < clipper.DisplayEnd; row++) {
+          ImGui::TableNextRow();
+          ImGui::TableSetColumnIndex(0);
+          float height = height_func(row);
+          shared_ptr<Tc> cell = cell_list[row];
+          cell->index = row;
+          cell->pos = ImVec2(0, height * row);
+          cell->size = ImVec2(size.x, height);
+          cell->Display();
+        }
+      }
+      ImGui::EndTable();
+    }
+
+    if (action) action(); action = nullptr;
+  }
 };
 } // namespace tkgui
 } // namespace tkht

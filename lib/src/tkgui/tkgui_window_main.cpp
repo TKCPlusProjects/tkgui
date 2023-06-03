@@ -14,18 +14,18 @@ void WindowMain::SetText(const char* text) {
 }
 
 void WindowMain::SetOptions(vector<pair<const char*, function<void()>>> options) {
-  if (!option) {
-    option = make_shared<tkgui::ViewTableOption>();
-    option->pos = ImVec2(content_size.x * 0.4f, content_size.y * 0.5f);
-    option->size = ImVec2(content_size.x * 0.2f, content_size.y * 0.4f);
+  if (!option_table) {
+    option_table = make_shared<tkgui::ViewTableOption>();
+    option_table->pos = ImVec2(content_size.x * 0.4f, content_size.y * 0.5f);
+    option_table->size = ImVec2(content_size.x * 0.2f, content_size.y * 0.4f);
 
-    option->height_func = [=](int index) {
-      return option->size.y * 0.25f;
+    option_table->height_func = [=](int index) {
+      return option_table->size.y * 0.25f;
     };
   }
-  option->cell_list.clear();
+  option_table->cell_list.clear();
   for (pair<const char*, function<void()>> option_pair : options) {
-    option->cell_list.push_back(make_shared<tkgui::ViewTableOption::Cell>(option_pair.first, option_pair.second));
+    option_table->cell_list.push_back(option_table->CreateCell(option_pair.first, option_pair.second));
   }
 }
 
@@ -37,8 +37,8 @@ void WindowMain::OnUpdateSize(int width, int height) {
 
   title->pos = ImVec2(0.0f, content_size.y * 0.1f);
   title->size = ImVec2(content_size.x * 1.0f, content_size.y * 0.3f);
-  option->pos = ImVec2(content_size.x * 0.4f, content_size.y * 0.5f);
-  option->size = ImVec2(content_size.x * 0.2f, content_size.y * 0.4f);
+  option_table->pos = ImVec2(content_size.x * 0.4f, content_size.y * 0.5f);
+  option_table->size = ImVec2(content_size.x * 0.2f, content_size.y * 0.4f);
 }
 void WindowMain::OnDisplay() {
   Window::Begin(true);
@@ -49,7 +49,7 @@ void WindowMain::OnDisplay() {
     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
     ImGui::PushFont(Font(FontType_Button));
 
-    option->Display();
+    option_table->Display();
 
     ImGui::PopFont();
     ImGui::PopStyleColor(1);

@@ -2,8 +2,19 @@
 
 namespace tkht {
 namespace tkgui {
-void ViewTableOption::Cell::OnDisplay() {
-  if (ImGui::Button(text, size)) action();
+void ViewTableOptionCell::OnDisplay() {
+  shared_ptr<ViewTableOption> table = this->table.lock();
+
+  if (ImGui::Button(text, size)) {
+    table->action = action;
+  }
+}
+
+shared_ptr<ViewTableOptionCell> ViewTableOption::CreateCell(const char* text, function<void()> action) {
+  shared_ptr<ViewTableOptionCell> cell = ViewTable::CreateCell();
+  cell->text = text;
+  cell->action = action;
+  return cell;
 }
 
 void ViewTableOption::OnDisplay() {
