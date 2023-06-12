@@ -20,9 +20,9 @@ shared_ptr<ViewTableOptionCell> ViewTableOption::CreateCell(const char* text, fu
 void ViewTableOption::OnDisplay() {
   ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
   ImGui::PushFont(Font(FontType_Button));
-
-  ViewTable::OnDisplay();
-
+  {
+    ViewTable::OnDisplay();
+  }
   ImGui::PopFont();
   ImGui::PopStyleColor(1);
 }

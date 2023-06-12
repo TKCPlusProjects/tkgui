@@ -2,10 +2,10 @@
 
 namespace tkht {
 namespace tkgui {
-View::View() {}
+View::View(ImGuiWindowFlags flags) : flags(flags) {}
 
-void View::Add(shared_ptr<View> child) {
-  children.push_back(child);
+void View::Add(shared_ptr<View> view) {
+  subviews.push_back(view);
 }
 
 void View::Display() {
@@ -15,15 +15,12 @@ void View::Display() {
   ImGui::BeginChild(ViewID(), size, false, UIFlags);
   {
     OnDisplay();
-    OnDisplayChildren();
+    OnDisplaySubviews();
   }
   ImGui::EndChild();
 }
-void View::OnDisplay() {
-  
-}
-void View::OnDisplayChildren() {
-  for (shared_ptr<View> child : children) child->Display();
+void View::OnDisplaySubviews() {
+  for (shared_ptr<View> view : subviews) view->Display();
 }
 } // namespace tkgui
 } // namespace tkht

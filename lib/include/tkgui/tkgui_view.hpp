@@ -6,18 +6,20 @@
 namespace tkht {
 namespace tkgui {
 class View {
+protected:
+  ImGuiWindowFlags flags;
 public:
-  bool hide;
+  bool hide = false;
   ImVec2 pos, size;
-  vector<shared_ptr<View>> children;
+  vector<shared_ptr<View>> subviews;
 
-  View();
+  View(ImGuiWindowFlags flags = UIFlags);
 
-  void Add(shared_ptr<View> child);
+  void Add(shared_ptr<View> view);
 
   void Display();
-  virtual void OnDisplay();
-  virtual void OnDisplayChildren();
+  virtual void OnDisplay() = 0;
+  virtual void OnDisplaySubviews();
 };
 } // namespace tkgui
 } // namespace tkht

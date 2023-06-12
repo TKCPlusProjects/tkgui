@@ -2,7 +2,7 @@
 
 namespace tkht {
 namespace tkgui {
-WindowSetting::WindowSetting() : Window("TKGUI_WINDOW_OPTION") {
+WindowSetting::WindowSetting() : Window("TKGUI_WINDOW_OPTION", true) {
   navigator = make_shared<tkgui::ViewNavigator>();
   navigator->text = "ViewTableSetting";
   navigator->close_func = [=](){
@@ -32,38 +32,27 @@ void WindowSetting::SetForms(vector<shared_ptr<tkgm::SetForm>> forms) {
 }
 
 void WindowSetting::OnUpdateSize(int width, int height) {
-  pos = ImVec2();
-  size = ImVec2(width, height);
-  content_border = true;
-  content_pos = ImVec2(size.x * 0.1f, size.y * 0.1f);
-  content_size = ImVec2(size.x * 0.8f, size.y * 0.8f);
-
+  pos = ImVec2(width * 0.1f, height * 0.1f);
+  size = ImVec2(width * 0.8f, height * 0.8f);
+  
   navigator->pos = ImVec2();
-  navigator->size = ImVec2(content_size.x, 50.0f);
+  navigator->size = ImVec2(size.x, 50.0f);
 }
 void WindowSetting::OnDisplay() {
-  ImGui::PushFont(Font(FontType_Button));
-  Window::Begin();
-  {
-    navigator->Display();
-  }
-  {
-    ImGui::BeginTabBar("TKGUI_VIEW_SETTING_TABBAR", ImGuiTabBarFlags_None);
-    for (shared_ptr<tkgui::ViewTableSetting> setting_table : setting_tables) {
-      if (ImGui::BeginTabItem(setting_table->text)) {
-        setting_table->pos = ImGui::GetCursorPos();
-        setting_table->size = ImVec2(content_size.x, content_size.y - setting_table->pos.y);
-        setting_table->Display();
-        ImGui::EndTabItem();
-      }
+  navigator->Display();
+  ImGui::BeginTabBar("TKGUI_VIEW_SETTING_TABBAR", ImGuiTabBarFlags_None);
+  for (shared_ptr<tkgui::ViewTableSetting> setting_table : setting_tables) {
+    if (ImGui::BeginTabItem(setting_table->text)) {
+      setting_table->pos = ImGui::GetCursorPos();
+      setting_table->size = ImVec2(size.x, size.y - setting_table->pos.y);
+      setting_table->Display();
+      ImGui::EndTabItem();
     }
-    ImGui::EndTabBar();
   }
+  ImGui::EndTabBar();
   if (ImGui::IsKeyPressed(ImGuiKey_Escape) && WindowFocused()) {
     AlertShow("Save the modifications?", [=](){ Hide(); }, nullptr);
   };
-  Window::End();
-  ImGui::PopFont();
 }
 } // namespace tkgui
 } // namespace tkht

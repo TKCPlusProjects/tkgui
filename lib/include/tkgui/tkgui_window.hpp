@@ -9,31 +9,25 @@ class Window {
 protected:
   ImGuiWindowFlags flags;
   const char *name;
-  bool showing = false;
 public:
+  bool hide, modal;
   ImVec2 pos, size;
-  bool content_border = false;
-  ImVec2 content_pos, content_size;
-  vector<shared_ptr<Window>> subwindows; 
+  vector<shared_ptr<Window>> subwindows;
 
-  Window(const char *name);
-  Window(const char *name, ImGuiWindowFlags flags);
+  Window(const char *name, bool modal = false, ImGuiWindowFlags flags = tkgui::UIFlags);
 
-  virtual void Show();
-  virtual void Hide();
+  void Show();
+  void Hide();
 
-  void AddSubwindow(shared_ptr<Window> window);
+  void Add(shared_ptr<Window> window);
 
   void UpdateSize(int width, int height);
-  virtual void OnUpdateSize(int width, int height);
+  virtual void OnUpdateSize(int width, int height) = 0;
   virtual void OnUpdateSizeSubwindows(int width, int height);
   
   void Display();
-  virtual void OnDisplay();
+  virtual void OnDisplay() = 0;
   virtual void OnDisplaySubwindows();
-
-  void Begin(bool fixed = false);
-  void End();
 };
 } // namespace tkgui
 } // namespace tkht

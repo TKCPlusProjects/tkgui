@@ -55,9 +55,9 @@ shared_ptr<ViewTableTitleCell> ViewTableTitle::CreateCell(const char* title) {
 void ViewTableTitle::OnDisplay() {
   ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 0.0f));
   ImGui::PushFont(Font(FontType_Button));
-
-  ViewTable::OnDisplay();
-
+  {
+    ViewTable::OnDisplay();
+  }
   ImGui::PopFont();
   ImGui::PopStyleColor(1);
 }
@@ -89,24 +89,19 @@ WindowTitle::WindowTitle() : Window("TKGPG_WINDOW_VERTEX") {
   
   title_table->cell_list.push_back(title_table->CreateCell("Yahaha"));
 
-  Show(); 
+  Show();
 }
 
 void WindowTitle::OnUpdateSize(int width, int height) {
   pos = ImVec2(width * 0.7f, 0.0f);
   size = ImVec2(width * 0.3f, height);
-  content_pos = ImVec2();
-  content_size = size;
 
-  float margin = 5.0f;
-  title_table->pos = ImVec2(margin, margin);
-  title_table->size = ImVec2(content_size.x - margin * 2.0f, content_size.y - margin * 2.0f);
+  title_table->pos = ImVec2();
+  title_table->size = size;
 }
 
 void WindowTitle::OnDisplay() {
-  Window::Begin(true);
   title_table->Display();
-  Window::End();
 }
 
 enum CurrentWindowDisplay {
@@ -118,11 +113,11 @@ static CurrentWindowDisplay display = Main;
 
 int main() {
   tkht::Debug = true;
+  tkht::SubscribeSignalCrash();
 
   tkgm::Load();
   
-  Init(tkgm::video->window_width->Get(),
-              tkgm::video->window_height->Get(), "tksurvivor");
+  Init(tkgm::video->window_width->Get(), tkgm::video->window_height->Get(), "tksurvivor");
 
   shared_ptr<WindowMain> main_window = make_shared<WindowMain>();
   main_window->SetText("Welcome Survivor");
@@ -139,20 +134,17 @@ int main() {
   title_window->UpdateSize(Width, Height);
 
   Display([=](){
-    switch (display)
-    {
-    case Main:
+    switch (display) {
+    case Main: {
       main_window->Display();
-      break;
-    case Title:
-      {
-        title_window->Display();
+    } break;
+    case Title: {
+      title_window->Display();
 
-        if (ImGui::IsKeyPressed(ImGuiKey_Escape)) {
-          display = Main;
-        }
+      if (ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+        display = Main;
       }
-      break;
+    } break;
     }
   });
 

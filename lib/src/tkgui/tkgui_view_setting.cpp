@@ -5,10 +5,12 @@ namespace tkgui {
 void ViewTableSettingCell::OnDisplay() {
   shared_ptr<ViewTableSetting> table = this->table.lock();
 
-  ImVec2 text_size = ImGui::CalcTextSize(item->title);
-  ImVec2 text_pos = ImVec2(size.x * 0.05f, (size.y - text_size.y) * 0.5f);
-  ImGui::SetCursorPos(text_pos);
-  ImGui::Text("%s", item->title);
+  if (item->title) {
+    ImVec2 text_size = ImGui::CalcTextSize(item->title);
+    ImVec2 text_pos = ImVec2(size.x * 0.05f, (size.y - text_size.y) * 0.5f);
+    ImGui::SetCursorPos(text_pos);
+    ImGui::Text("%s", item->title);
+  }
   ImGui::SameLine();
   ImGui::SetCursorPosX(size.x * 0.4f);
   ImGui::SetCursorPosY(ImGui::GetCursorPosY() - ImGui::GetStyle().ItemInnerSpacing.y);
@@ -48,9 +50,9 @@ shared_ptr<ViewTableSettingCell> ViewTableSetting::CreateCell(shared_ptr<tkgm::S
 
 void ViewTableSetting::OnDisplay() {
   ImGui::PushFont(Font(FontType_Button));
-
-  ViewTable::OnDisplay();
-
+  {
+    ViewTable::OnDisplay();
+  }
   ImGui::PopFont();
 }
 } // namespace tkgui

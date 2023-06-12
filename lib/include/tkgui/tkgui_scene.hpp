@@ -7,7 +7,6 @@ namespace tkht {
 namespace tkgui {
 class Scene {
 public:
-  ImVec2 size = ImVec2();
   vector<shared_ptr<tkgui::Window>> windows;
 
   Scene();
@@ -15,11 +14,11 @@ public:
   void AddWindow(shared_ptr<tkgui::Window> window);
 
   void UpdateSize(int width, int height);
-  virtual void OnUpdateSize(int width, int height);
+  virtual void OnUpdateSize(int width, int height) = 0;
   virtual void OnUpdateSizeSubwindows(int width, int height);
 
   void Display();
-  virtual void OnDisplay();
+  virtual void OnDisplay() = 0;
   virtual void OnDisplayWindows();
 };
 } // namespace tkgui
