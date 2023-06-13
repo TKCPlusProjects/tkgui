@@ -6,6 +6,8 @@ class ViewTableTitle;
 class ViewTableTitleCell : public ViewTableCell<ViewTableTitle> {
 public:
   const char* title;
+  
+  shared_ptr<Popup> popup;
 
   void OnDisplay() override;
 };
@@ -29,6 +31,7 @@ void ViewTableTitleCell::OnDisplay() {
   ImGui::SameLine();
   ImGui::SetNextItemWidth(100.0f);
   ImGui::LabelText("##", "%s", title);
+  popup->Pin();
   
   ImGui::SameLine();
   if (ImGui::Button("+", ImVec2(30.0f, 30.0f))) {
@@ -49,6 +52,14 @@ void ViewTableTitleCell::OnDisplay() {
 shared_ptr<ViewTableTitleCell> ViewTableTitle::CreateCell(const char* title) {
   shared_ptr<ViewTableTitleCell> cell = ViewTable::CreateCell();
   cell->title = title;
+  cell->popup = make_shared<Popup>(vector<shared_ptr<MenuItem>>{
+    make_shared<MenuItem>("Hello", [=](){ printf("Hello\n"); }),
+    make_shared<MenuItem>("World", [=](){ printf("World\n"); }),
+    make_shared<MenuItem>("Others", vector<shared_ptr<MenuItem>>{
+      make_shared<MenuItem>("Bezingga", [=](){ printf("Bezingga\n"); }),
+      make_shared<MenuItem>("Yahaha", [=](){ printf("Yahaha\n"); }),
+    }),
+  });
   return cell;
 }
 

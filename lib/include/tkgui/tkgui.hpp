@@ -2,6 +2,9 @@
 #define tkgui_hpp
 
 #include <tkgui/tkgui_base.hpp>
+#include <tkgui/tkgui_widget.hpp>
+#include <tkgui/tkgui_widget_menu.hpp>
+#include <tkgui/tkgui_widget_popup.hpp>
 #include <tkgui/tkgui_view.hpp>
 #include <tkgui/tkgui_view_title.hpp>
 #include <tkgui/tkgui_view_setting.hpp>
