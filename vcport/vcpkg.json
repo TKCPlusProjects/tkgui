@@ -1,6 +1,6 @@
 {
   "name": "tkgui",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "The tkgui is a port of vcpkg",
   "homepage": "https://github.com/ZhengXianda/tkgui",
   "dependencies": [
