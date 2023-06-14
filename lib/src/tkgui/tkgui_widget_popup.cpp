@@ -6,7 +6,7 @@ Popup::Popup(vector<shared_ptr<MenuItem>> items) : Widget(), items(items) {}
 
 void Popup::Pin() {
   ImGuiID menu_id = tkgui::ViewID();
-  if (ImGui::IsMouseReleased(ImGuiMouseButton_Right)) {
+  if (ImGui::IsMouseReleased(ImGuiMouseButton_Right) && ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenBlockedByPopup)) {
     ImGui::OpenPopupEx(menu_id, ImGuiPopupFlags_None);
   }
   ImGuiWindowFlags flags = 
