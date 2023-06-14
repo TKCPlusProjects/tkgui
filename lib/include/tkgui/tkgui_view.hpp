@@ -10,10 +10,11 @@ protected:
   ImGuiWindowFlags flags;
 public:
   bool hide = false;
+  bool auto_pos = false;
   ImVec2 pos, size;
   vector<shared_ptr<View>> subviews;
 
-  View(ImGuiWindowFlags flags = UIFlags);
+  View(bool auto_pos = false, ImGuiWindowFlags flags = UIFlags);
 
   void Add(shared_ptr<View> view);
 

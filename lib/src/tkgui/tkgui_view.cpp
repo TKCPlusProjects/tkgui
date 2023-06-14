@@ -2,7 +2,7 @@
 
 namespace tkht {
 namespace tkgui {
-View::View(ImGuiWindowFlags flags) : flags(flags) {}
+View::View(bool auto_pos, ImGuiWindowFlags flags) : auto_pos(auto_pos), flags(flags) {}
 
 void View::Add(shared_ptr<View> view) {
   subviews.push_back(view);
@@ -11,7 +11,7 @@ void View::Add(shared_ptr<View> view) {
 void View::Display() {
   if (hide) return;
   
-  ImGui::SetCursorPos(pos);
+  if (!auto_pos) ImGui::SetCursorPos(pos);
   ImGui::BeginChild(ViewID(), size, false, flags);
   {
     OnDisplay();

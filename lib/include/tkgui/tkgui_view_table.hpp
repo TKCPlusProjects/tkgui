@@ -11,7 +11,7 @@ public:
   weak_ptr<Tt> table;
   int index = 0;
 
-  ViewTableCell(ImGuiWindowFlags flags = UIFlags) : View(flags) {}
+  ViewTableCell(ImGuiWindowFlags flags = UIFlags) : View(true, flags) {}
 };
 
 template <typename Tt, typename Tc>
@@ -21,7 +21,7 @@ public:
   function<void()> action;
   vector<shared_ptr<Tc>> cell_list;
 
-  ViewTable(ImGuiWindowFlags flags = UIFlags) : View(flags) {}
+  ViewTable(bool auto_pos = false, ImGuiWindowFlags flags = UIFlags) : View(auto_pos, flags) {}
 
   shared_ptr<Tc> CreateCell() {
     shared_ptr<Tc> cell = make_shared<Tc>();
