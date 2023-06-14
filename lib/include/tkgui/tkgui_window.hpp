@@ -14,7 +14,7 @@ public:
   ImVec2 pos, size;
   vector<shared_ptr<Window>> subwindows;
 
-  Window(const char *name, bool modal = false, ImGuiWindowFlags flags = tkgui::UIFlags);
+  Window(const char *name, bool modal = false, ImGuiWindowFlags flags = UIFlags);
 
   void Show();
   void Hide();

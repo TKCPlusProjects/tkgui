@@ -12,7 +12,7 @@ void View::Display() {
   if (hide) return;
   
   ImGui::SetCursorPos(pos);
-  ImGui::BeginChild(ViewID(), size, false, UIFlags);
+  ImGui::BeginChild(ViewID(), size, false, flags);
   {
     OnDisplay();
     OnDisplaySubviews();

@@ -2,8 +2,7 @@
 
 namespace tkht {
 namespace tkgui {
-ImGuiWindowFlags UIFlags =
-    ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoNav;
+ImGuiWindowFlags UIFlags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoNav;
 
 GLFWwindow *WindowRoot;
 int Width, Height;
