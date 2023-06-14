@@ -22,11 +22,11 @@ public:
 };
 
 void ViewTableTitleCell::OnDisplay() {
-  shared_ptr<ViewTableTitle> table = this->table.lock();
-
   ImGui::Separator();
+  ImGui::PushStyleColor(ImGuiCol_Text, is_select ? ImVec4(0.6f, 0.0f, 0.0f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
   ImGui::SetNextItemWidth(50.0f);
   ImGui::LabelText("##", "%d", index);
+  ImGui::PopStyleColor(1);
 
   ImGui::SameLine();
   ImGui::SetNextItemWidth(100.0f);
@@ -35,15 +35,11 @@ void ViewTableTitleCell::OnDisplay() {
   
   ImGui::SameLine();
   if (ImGui::Button("+", ImVec2(30.0f, 30.0f))) {
-    table->action = [=](){
-      table->add_action(index);
-    };
+    SetTableAction([=](auto table){ table->add_action(index); });
   }
   ImGui::SameLine();
   if (ImGui::Button("-", ImVec2(30.0f, 30.0f))) {
-    table->action = [=](){
-      table->remove_action(index);
-    };
+    SetTableAction([=](auto table){ table->remove_action(index); });
   }
 
   ImGui::Separator();
@@ -53,6 +49,7 @@ shared_ptr<ViewTableTitleCell> ViewTableTitle::CreateCell(const char* title) {
   shared_ptr<ViewTableTitleCell> cell = ViewTable::CreateCell();
   cell->title = title;
   cell->popup = make_shared<Popup>(vector<shared_ptr<MenuItem>>{
+    make_shared<MenuItem>("Select", [=](){ select_index = cell->index; }),
     make_shared<MenuItem>("Hello", [=](){ printf("Hello\n"); }),
     make_shared<MenuItem>("World", [=](){ printf("World\n"); }),
     make_shared<MenuItem>("Others", vector<shared_ptr<MenuItem>>{

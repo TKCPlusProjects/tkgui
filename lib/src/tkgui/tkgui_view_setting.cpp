@@ -3,8 +3,6 @@
 namespace tkht {
 namespace tkgui {
 void ViewTableSettingCell::OnDisplay() {
-  shared_ptr<ViewTableSetting> table = this->table.lock();
-
   if (item->title) {
     ImVec2 text_size = ImGui::CalcTextSize(item->title);
     ImVec2 text_pos = ImVec2(size.x * 0.05f, (size.y - text_size.y) * 0.5f);
@@ -32,9 +30,7 @@ void ViewTableSettingCell::OnDisplay() {
   case tkgm::SetItem::Type_KeyButton: {
     shared_ptr<tkgm::KeyButtonItem> type_item = static_pointer_cast<tkgm::KeyButtonItem>(item);
     if (ImGui::Button(type_item->name, ImVec2(ImGui::CalcItemWidth(), ImGui::GetFrameHeight()))) {
-      table->action = [=](){
-        table->key_action(type_item);
-      };
+      SetTableAction([=](auto table){ table->key_action(type_item); });
     }
     } break;
   default:

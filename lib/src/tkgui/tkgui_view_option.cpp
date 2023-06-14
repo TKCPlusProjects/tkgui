@@ -3,10 +3,8 @@
 namespace tkht {
 namespace tkgui {
 void ViewTableOptionCell::OnDisplay() {
-  shared_ptr<ViewTableOption> table = this->table.lock();
-
   if (ImGui::Button(text, size)) {
-    table->action = action;
+    SetTableAction([=](auto table){ action(); });
   }
 }
 

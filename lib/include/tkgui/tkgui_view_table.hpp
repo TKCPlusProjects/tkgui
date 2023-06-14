@@ -8,17 +8,22 @@ namespace tkgui {
 template <typename Tt>
 class ViewTableCell : public View {
 public:
-  weak_ptr<Tt> table;
   int index = 0;
+  bool is_select = false;
+  weak_ptr<Tt> table;
 
   ViewTableCell(ImGuiWindowFlags flags = UIFlags) : View(true, flags) {}
+  void SetTableAction(function<void(shared_ptr<Tt>)> action) {
+    this->table.lock()->action = action;
+  }
 };
 
 template <typename Tt, typename Tc>
 class ViewTable : public View, public enable_shared_from_this<Tt> {
 public:
+  int select_index;
   function<float(int)> height_func;
-  function<void()> action;
+  function<void(shared_ptr<Tt>)> action;
   vector<shared_ptr<Tc>> cell_list;
 
   ViewTable(bool auto_pos = false, ImGuiWindowFlags flags = UIFlags) : View(auto_pos, flags) {}
@@ -39,6 +44,7 @@ public:
           float height = height_func(row);
           shared_ptr<Tc> cell = cell_list[row];
           cell->index = row;
+          cell->is_select = row == select_index;
           cell->pos = ImVec2(0, height * row);
           cell->size = ImVec2(size.x, height);
           cell->Display();
@@ -47,7 +53,7 @@ public:
       ImGui::EndTable();
     }
 
-    if (action) action(); action = nullptr;
+    if (action) action(Tt::shared_from_this()); action = nullptr;
   }
 };
 } // namespace tkgui
